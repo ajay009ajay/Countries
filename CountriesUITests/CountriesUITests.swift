@@ -34,16 +34,28 @@ class CountriesUITests: XCTestCase {
     func testSeachCountryScreen()  {
         Thread.sleep(forTimeInterval: 5)
         app.swipeDown()
-        XCTAssertTrue(app.tables["tableview.country.search"].exists, "TableView doesn't exist")
-
-        let searhBar = app.otherElements["country.searchbar"]
-        XCTAssertTrue(searhBar.exists, "Searchbar doesn't exist")
+        
+        let listTable = app.tables["tableview.country.search"]
+        XCTAssertTrue(listTable.exists, "TableView doesn't exist")
 
         let searchfield = app.searchFields.element(boundBy: 0)
         searchfield.tap()
         searchfield.typeText("I")
-        Thread.sleep(forTimeInterval: 10)
+
+        XCTAssertTrue(listTable.exists, "TableView doesn't exist")
+
+        let isCellExist = app.tables.element(boundBy: 0).cells.count > 0
         
+        XCTAssertTrue(isCellExist, "TableView cell doesn't exist")
+                
+        if (app.tables.element(boundBy: 0).cells.count > 0) {
+            app.tables.element(boundBy: 0).cells.element(boundBy: 0).tap()
+        }
+         
+        let detailTable = app.tables["country.detail.tableview"]
+        XCTAssertTrue(detailTable.exists, "TableView doesn't exist")
+        app.swipeUp()
+
     }
 
     

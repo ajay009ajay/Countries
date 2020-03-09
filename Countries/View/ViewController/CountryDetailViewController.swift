@@ -22,6 +22,7 @@ class CountryDetailViewController: UIViewController {
         detailTableView.dataSource = viewModel
         detailTableView.delegate = self
         detailTableView.reloadData()
+        detailTableView.accessibilityIdentifier = "country.detail.tableview"
     }
 }
 

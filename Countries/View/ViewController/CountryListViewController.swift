@@ -12,7 +12,7 @@ class CountryListViewController: UITableViewController {
 
     @IBOutlet var countryTableView: UITableView!
     public var viewModel = CountryViewModel(countryWebService: WebServiceManager()) 
-    
+    var searchController: UISearchController?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,14 +34,14 @@ class CountryListViewController: UITableViewController {
     //MARK: Serach View Added
     
     private func initSearchVC() {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Country"
-        searchController.searchBar.delegate = self
+        self.searchController = UISearchController(searchResultsController: nil)
+        searchController?.obscuresBackgroundDuringPresentation = false
+        searchController?.searchBar.placeholder = "Search Country"
+        searchController?.searchBar.delegate = self
         self.navigationItem.searchController = searchController
         self.definesPresentationContext = true
-        searchController.searchBar.accessibilityIdentifier = "country.searchbar"
-        searchController.searchBar.accessibilityTraits = UIAccessibilityTraits.searchField
+        searchController?.searchBar.accessibilityIdentifier = "country.searchbar"
+        searchController?.searchBar.accessibilityTraits = UIAccessibilityTraits.searchField
 
     }
     
@@ -73,6 +73,12 @@ extension CountryListViewController :  UISearchBarDelegate {
         viewModel.getCountryListBySearchText(searchText: searchText)
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        
+        if let searhC = searchController {
+            if searhC.searchBar.canResignFirstResponder {
+                searhC.resignFirstResponder()
+            }
+        }
         viewModel.getCountryListBySearchText(searchText: "")
     }
 }

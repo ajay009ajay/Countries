@@ -55,6 +55,8 @@ extension CountryViewModel: UITableViewDataSource {
         if let counteryData = countries.value?[indexPath.row]{
             cell.drawCell(countryDetail: counteryData,delegateContext: self,savedData: savedCountriesArr)
         }
+        
+        cell.accessibilityIdentifier = "CountryListTableViewCell"
         return cell
     }
     
