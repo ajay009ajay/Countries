@@ -14,7 +14,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     var window: UIWindow?
     let reachability =   try! Reachability()
-
+    var launchArguments = "test"
+    
+    private func launchCountryListVCForMocking(splitViewController: UISplitViewController) {
+        if splitViewController.viewControllers.count > 0 {
+            if let navVC = (splitViewController.viewControllers[0] as? UINavigationController), navVC.viewControllers.count > 0,  let countryListVC = (navVC.viewControllers[0] as? CountryListViewController) {
+                
+                let mockSession = URLSessionMock()
+                mockSession.data = JsonFileReader.getJsonFileData(fileName: "India")
+                countryListVC.viewModel = CountryViewModel(countryWebService: WebServiceManager(session: mockSession))
+            }
+            
+        }
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // Override point for customization after application launch.
@@ -23,10 +36,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         splitViewController.delegate = self
 
-        print("Documents Directory: ", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last ?? "Not Found!")
+        debugPrint("Documents Directory: ", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last ?? "Not Found!")
 
         NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
       
+        if CommandLine.arguments.contains("--CountryListTest--") {
+            print("Running UI test")
+            launchCountryListVCForMocking(splitViewController: splitViewController)
+            return true
+        }
         return true
     }
 
@@ -71,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         do{
             try reachability.startNotifier()
         }catch{
-            print("could not start reachability notifier")
+            debugPrint("could not start reachability notifier")
         }
     }
     
@@ -81,13 +99,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         switch reachability.connection {
         case .wifi:
-            print("Reachable via WiFi")
+            debugPrint("Reachable via WiFi")
         case .cellular:
-            print("Reachable via Cellular")
+            debugPrint("Reachable via Cellular")
         case .unavailable:
-            print("Network not reachable")
+            debugPrint("Network not reachable")
         case .none:
-            print("Network not reachable")
+            debugPrint("Network not reachable")
         }
     }
 }

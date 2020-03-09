@@ -11,9 +11,7 @@ import UIKit
 class CountryListViewController: UITableViewController {
 
     @IBOutlet var countryTableView: UITableView!
-    private var viewModel = CountryViewModel(countryWebService: WebServiceManager())
-//    private var countries : [CountryModel]?
- 
+    public var viewModel = CountryViewModel(countryWebService: WebServiceManager()) 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +22,7 @@ class CountryListViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        countryTableView.dataSource = viewModel
+         countryTableView.dataSource = viewModel
         countryTableView.accessibilityIdentifier = "tableview.country.search"
         viewModel.countries.bind { [weak self] (data) in
             self?.refreshTableView()
@@ -42,6 +40,9 @@ class CountryListViewController: UITableViewController {
         searchController.searchBar.delegate = self
         self.navigationItem.searchController = searchController
         self.definesPresentationContext = true
+        searchController.searchBar.accessibilityIdentifier = "country.searchbar"
+        searchController.searchBar.accessibilityTraits = UIAccessibilityTraits.searchField
+
     }
     
     private func refreshTableView() {

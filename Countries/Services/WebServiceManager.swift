@@ -23,17 +23,17 @@ class WebServiceManager {
     func getCountryListBySearchText(searchText: String, completion: @escaping ([CountryDetail]?, Error?)->()) {
         
         let urlString = "\(HTTPUrl.country_search_url)\(searchText)"
-        print("UrlString = \(urlString)")
+        debugPrint("UrlString = \(urlString)")
         guard let url = URL(string: urlString) else { return }
         session.dataTask(with: URLRequest(url: url)) { (data, response, error) in
             
             if error != nil || data == nil {
                 completion(nil,error)
-                print("Client error!")
+                debugPrint("Client error!")
                 return
             }
             guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                print("Server error!")
+                debugPrint("Server error!")
                 completion(nil,CustomError.httpResponseError)
                 return
             }
@@ -51,7 +51,7 @@ class WebServiceManager {
                     
                 completion(countryDetailObjArr,nil)
             } catch {
-                print("JSON error: \(error.localizedDescription)")
+                debugPrint("JSON error: \(error.localizedDescription)")
                 completion(nil,CustomError.jsonDecoingError)
             }
         }.resume()
@@ -64,11 +64,11 @@ class WebServiceManager {
             
             if error != nil || data == nil {
                 completion(nil,error)
-                print("Client error!")
+                debugPrint("Client error!")
                 return
             }
             guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                print("Server error!")
+                debugPrint("Server error!")
                 
                 completion(nil,CustomError.httpResponseError)
                 return

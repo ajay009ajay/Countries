@@ -17,7 +17,9 @@ class CountriesUITests: XCTestCase {
 
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
+        app.launchArguments = ["--CountryListTest--"]
         app.launch()
+
 
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
 //        XCUIApplication().launch()
@@ -29,9 +31,20 @@ class CountriesUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
      }
 //
-//    func testSeachCountryScreen()  {
-//        XCTAssertTrue(app.tables["tableview.country.search"].exists, "TableView doesn't exist")
-//    }
+    func testSeachCountryScreen()  {
+        Thread.sleep(forTimeInterval: 5)
+        app.swipeDown()
+        XCTAssertTrue(app.tables["tableview.country.search"].exists, "TableView doesn't exist")
+
+        let searhBar = app.otherElements["country.searchbar"]
+        XCTAssertTrue(searhBar.exists, "Searchbar doesn't exist")
+
+        let searchfield = app.searchFields.element(boundBy: 0)
+        searchfield.tap()
+        searchfield.typeText("I")
+        Thread.sleep(forTimeInterval: 10)
+        
+    }
 
     
 }

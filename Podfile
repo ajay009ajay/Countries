@@ -3,17 +3,25 @@
 
 
 target 'Countries' do
-target 'CountriesTests' do
-        inherit! :search_paths
-        # Pods for testing
-    end
-target 'CountriesUITests' do
-        inherit! :search_paths
-        # Pods for testing
-    end
   use_frameworks!
-
-  # Pods for Countries
+ 	# Pods for Countries
 	pod 'SVGKit'
 	pod 'ReachabilitySwift'
 end
+
+target 'CountriesTests' do
+        inherit! :search_paths
+        # Pods for testing
+	pod 'SVGKit'
+	pod 'ReachabilitySwift'
+
+    end
+
+target 'CountriesUITests' do
+        inherit! :search_paths
+        # Pods for testing
+	pod 'SVGKit'
+	pod 'ReachabilitySwift'
+    end
+
+ 

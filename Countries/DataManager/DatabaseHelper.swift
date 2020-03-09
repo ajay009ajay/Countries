@@ -148,35 +148,12 @@ class DatabaseHelper {
                     }
                 }
                 obj.languages = langArr
-                
-//                let currency = Array(countryObj.currencies)
-                //data.value(forKey: "country_currency") as? [Currencies]
-//                let langs = countryObj.languages //data.value(forKey: "country_language") as? [Languages]
-
-//                let currency =  NSEntityDescription.insertNewObject(forEntityName: "EntityCurrencies", into: manageObjectContext) as? EntityCurrencies
-                
-//                var langArr = [Languages]()
-//                
-//                if let languagesEntityArr = data.value(forKey: "languages") as? [EntityLanguages] {
-//                    for eachLang in languagesEntityArr {
-//                        var lang = Languages()
-//                        lang.iso639_1 = eachLang.iso639_1
-//                        langArr.append(lang)
-//                    }
-//                }
-//
-//                for eachLang in (data.value(forKey: "languages") as? [EntityLanguages])! {
-//
-//                }
-//                obj.languages = data.value(forKey: "languages") as? [EntityLanguages]
-//                obj.currencies = data.value(forKey: "currencies") as? [EntityCurrencies]
-
-                
+    
                 savedCoutries.append(obj)
             }
             
         } catch {
-            print("Failed to fetch")
+            debugPrint("Failed to fetch")
         }
         return savedCoutries
     }

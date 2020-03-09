@@ -14,7 +14,7 @@ class CountriesListControllerTests: XCTestCase {
     var countriesVC: CountryListViewController!
     var mockSession = URLSessionMock()
     var webManager: WebServiceManager?
-    var vm: CountryViewModel?
+    var viewModel: CountryViewModel?
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -25,9 +25,9 @@ class CountriesListControllerTests: XCTestCase {
         
         webManager = WebServiceManager(session: mockSession)
         
-        if let webManager = webManager {
-            vm = CountryViewModel(countryWebService: webManager)
-
+        if let webManager = webManager  {
+            viewModel = CountryViewModel(countryWebService: webManager)
+            vc.viewModel = viewModel!
         }
     }
 
@@ -40,22 +40,6 @@ class CountriesListControllerTests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
-    private func getJsonFileData(fileName: String)-> Data? {
-        
-        var jsonData: Data?
-
-        if let filepath = Bundle.main.path(forResource: fileName, ofType: "json") {
-            do {
-                let url = URL(fileURLWithPath: filepath)
-                
-                do {
-                    jsonData = try?Data(contentsOf: url)
-                }
-            }
-        }
-        return jsonData
-    }
-    
     func testCountryListData()  {
         
         let mockCountryDetail = CountryDetail()
@@ -71,19 +55,19 @@ class CountriesListControllerTests: XCTestCase {
         
         XCTAssertTrue(cachedDataArr.count > 0, "Cached Array count shoud more than one")
 
-        mockSession.data = getJsonFileData(fileName: "India")
+        mockSession.data = JsonFileReader.getJsonFileData(fileName: "India")
 
-        vm?.getCountryListBySearchText(searchText: "India")
+        viewModel?.getCountryListBySearchText(searchText: "India")
         
         let expection = expectation(description: "country")
 
-        vm?.countries.bind {(data) in
+        viewModel?.countries.bind {(data) in
             expection.fulfill()
         }
         
         waitForExpectations(timeout: 10) { [weak self] (error) in
             
-            if let vm = self?.vm, let countryArr = vm.countries.value {
+            if let vm = self?.viewModel, let countryArr = vm.countries.value {
                 XCTAssertTrue(countryArr.count > 0, "Array count shoud more than one")
                 self?.countriesVC.countryTableView.reloadData()
             }
