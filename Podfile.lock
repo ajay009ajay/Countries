@@ -1,0 +1,26 @@
+PODS:
+  - CocoaLumberjack (3.6.1):
+    - CocoaLumberjack/Core (= 3.6.1)
+  - CocoaLumberjack/Core (3.6.1)
+  - ReachabilitySwift (5.0.0)
+  - SVGKit (2.1.1):
+    - CocoaLumberjack (~> 3.0)
+
+DEPENDENCIES:
+  - ReachabilitySwift
+  - SVGKit
+
+SPEC REPOS:
+  trunk:
+    - CocoaLumberjack
+    - ReachabilitySwift
+    - SVGKit
+
+SPEC CHECKSUMS:
+  CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  SVGKit: 652cdf7bef8bec8564d04a8511d3ab50c7595fac
+
+PODFILE CHECKSUM: b1fc3e12f61ef2636b60a2864d4c03997fdb3ba1
+
+COCOAPODS: 1.8.4
