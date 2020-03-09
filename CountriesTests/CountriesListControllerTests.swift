@@ -41,17 +41,18 @@ class CountriesListControllerTests: XCTestCase {
     }
 
     func testCountryListData()  {
-        
-        let mockCountryDetail = CountryDetail()
-        mockCountryDetail.country = [ModelKey.name: "India"]
-        mockCountryDetail.currencies = [Currencies(name: "India", code: "INR", symbol: "INR")]
-        mockCountryDetail.languages = [Languages(iso639_1: "iso_1", iso639_2: "iso_2", name: "Hindi", nativeName: "Hindi")]
-        mockCountryDetail.flagImageData = nil
-        mockCountryDetail.callingCodes = "+91"
-        
-       DatabaseHelper.sharedInstance.saveCountryDetail(coutryDetail: mockCountryDetail, flagImageData: nil)
-        
         let cachedDataArr = DatabaseHelper.sharedInstance.fetchSavedCountryData()
+        
+        if cachedDataArr.count <= 0 {
+            let mockCountryDetail = CountryDetail()
+            mockCountryDetail.country = [ModelKey.name: "India"]
+            mockCountryDetail.currencies = [Currencies(name: "India", code: "INR", symbol: "INR")]
+            mockCountryDetail.languages = [Languages(iso639_1: "iso_1", iso639_2: "iso_2", name: "Hindi", nativeName: "Hindi")]
+            mockCountryDetail.flagImageData = nil
+            mockCountryDetail.callingCodes = "+91"
+            
+            DatabaseHelper.sharedInstance.saveCountryDetail(coutryDetail: mockCountryDetail, flagImageData: nil)
+        }
         
         XCTAssertTrue(cachedDataArr.count > 0, "Cached Array count shoud more than one")
 
